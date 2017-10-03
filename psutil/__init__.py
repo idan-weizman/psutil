@@ -749,6 +749,10 @@ class Process(object):
             """Return the session ID of the process."""
             return self._proc.sid()
 
+        def thread_ids(self):
+            """Return the thread IDs in the process."""
+            return self._proc.thread_ids()
+
     # Linux, BSD, AIX and Windows only
     if hasattr(_psplatform.Process, "io_counters"):
 

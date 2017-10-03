@@ -1740,6 +1740,10 @@ class Process(object):
         return int(_num_threads_re.findall(data)[0])
 
     @wrap_exceptions
+    def thread_ids(self):
+        return sorted([int(x) for x in os.listdir("%s/%s/task" % (self._procfs_path, self.pid))])
+
+    @wrap_exceptions
     def threads(self):
         thread_ids = os.listdir("%s/%s/task" % (self._procfs_path, self.pid))
         thread_ids.sort()
