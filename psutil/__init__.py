@@ -785,6 +785,16 @@ class Process(object):
             """
             return self._proc.num_fds()
 
+    if LINUX:
+
+        def pgid(self):
+            """Return the process group ID of the process."""
+            return self._proc.pgid()
+
+        def sid(self):
+            """Return the session ID of the process."""
+            return self._proc.sid()
+
     # Linux, BSD and Windows only
     if hasattr(_psplatform.Process, "io_counters"):
 
