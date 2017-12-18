@@ -1711,7 +1711,31 @@ class Process(object):
 
     @wrap_exceptions
     def thread_ids(self):
-        return sorted([int(x) for x in os.listdir("%s/%s/task" % (self._procfs_path, self.pid))])
+        thread_ids = sorted(os.listdir("%s/%s/task" % (self._procfs_path, self.pid)))
+        retlist = []
+        hit_enoent = False
+        bt = BOOT_TIME or boot_time()
+        for thread_id in thread_ids:
+            fname = "%s/%s/task/%s/stat" % (self._procfs_path, self.pid, thread_id)
+            try:
+                with open_binary(fname) as f:
+                    data = f.read().strip()
+            except IOError as err:
+                if err.errno == errno.ENOENT:
+                    # no such file or directory; it means thread
+                    # disappeared on us
+                    hit_enoent = True
+                    continue
+                raise
+            # ignore the first two values ("pid (exe)")
+            values = data[data.rfind(b')') + 2:].split()
+            create_time = (float(values[19]) / CLOCK_TICKS) + bt
+            ntuple = _common.linux_thread(int(thread_id), create_time)
+            retlist.append(ntuple)
+        if hit_enoent:
+            # raise NSP if the process disappeared on us
+            os.stat('%s/%s' % (self._procfs_path, self.pid))
+        return retlist
 
     @wrap_exceptions
     def threads(self):
