@@ -750,7 +750,7 @@ class Process(object):
             return self._proc.sid()
 
         def thread_ids(self):
-            """Return the thread IDs in the process."""
+            """Return the thread IDs and their create time in the process."""
             return self._proc.thread_ids()
 
     # Linux, BSD, AIX and Windows only

@@ -60,6 +60,7 @@ __all__ = [
     'pconn', 'pcputimes', 'pctxsw', 'pgids', 'pio', 'pionice', 'popenfile',
     'pthread', 'puids', 'sconn', 'scpustats', 'sdiskio', 'sdiskpart',
     'sdiskusage', 'snetio', 'snic', 'snicstats', 'sswap', 'suser',
+    'linux_thread'
     # utility functions
     'conn_tmap', 'deprecated_method', 'isfile_strict', 'memoize',
     'parse_environ_block', 'path_exists_strict', 'usage_percent',
@@ -224,6 +225,9 @@ pconn = namedtuple('pconn', ['fd', 'family', 'type', 'laddr', 'raddr',
 
 # psutil.connections() and psutil.Process.connections()
 addr = namedtuple('addr', ['ip', 'port'])
+
+# psutil.Process.thread_ids()
+linux_thread = namedtuple('linux_thread', ['id', 'create_time'])
 
 
 # ===================================================================
