@@ -51,6 +51,7 @@ if psutil.LINUX:
         'status',
         'terminal',
         'uids',
+        'pf_flags',
     ]
 elif psutil.BSD:
     names = [

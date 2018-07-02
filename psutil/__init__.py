@@ -744,6 +744,10 @@ class Process(object):
             """Return the session ID of the process."""
             return self._proc.sid()
 
+        def pf_flags(self):
+            """Return the kernel flags of the process."""
+            return self._proc.pf_flags()
+
         def thread_ids(self):
             """Return the thread IDs and their create time in the process."""
             return self._proc.thread_ids()
