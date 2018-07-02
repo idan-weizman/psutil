@@ -2126,6 +2126,10 @@ class Process(object):
         return int(self._parse_stat_file()[4])
 
     @wrap_exceptions
+    def pf_flags(self):
+        return int(self._parse_stat_file()[7])
+
+    @wrap_exceptions
     def uids(self, _uids_re=re.compile(br'Uid:\t(\d+)\t(\d+)\t(\d+)')):
         data = self._read_status_file()
         real, effective, saved = _uids_re.findall(data)[0]
