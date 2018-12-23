@@ -192,7 +192,8 @@ pmmap_grouped = namedtuple(
      'private_clean', 'private_dirty', 'referenced', 'anonymous', 'swap'])
 # psutil.Process().memory_maps(grouped=False)
 pmmap_ext = namedtuple(
-    'pmmap_ext', 'addr perms ' + ' '.join(pmmap_grouped._fields))
+    'pmmap_ext',
+    ('addr', 'perms', 'offset') + pmmap_grouped._fields)
 # psutil.Process.io_counters()
 pio = namedtuple('pio', ['read_count', 'write_count',
                          'read_bytes', 'write_bytes',
@@ -1811,7 +1812,7 @@ class Process(object):
                             path_exists_strict(path)):
                         path = path[:-10]
                 ls.append((
-                    decode(addr), decode(perms), path,
+                    decode(addr), decode(perms), decode(offset), path,
                     data[b'Rss:'],
                     data.get(b'Size:', 0),
                     data.get(b'Pss:', 0),
